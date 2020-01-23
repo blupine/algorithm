@@ -1,0 +1,155 @@
+*{box-sizing:border-box}
+
+html, body{
+    margin:0;
+    padding:0;
+}
+
+ul{
+    list-style: none;
+}
+
+a{
+    text-decoration: none;
+}
+
+body{
+    font-family: 'Jua', sans-serif;
+}
+
+.photo{
+    width:160px;
+}
+
+header{
+    background-color: #666;
+    padding:10px;
+    line-height: 5px;
+    text-align: center;
+    font-size:25px;
+    color:white;
+}
+
+section{
+    overflow:hidden;
+    position: relative;
+    width: 100%;
+    height: 400px;
+}
+
+.menu_nav{
+
+    float:left;
+    width:20%;
+    height:100%;
+    background:#ccc;
+
+}
+
+/* <ul> tag in menu */
+.menu_list_container{    
+    padding:0px;
+    margin:0px;
+
+    width: 100%;
+    height:100%;
+    border:solid 2px gray
+}
+
+/* main_menu_item : <li> tag in menu */
+.menu_list_item{
+    width: 100%;
+    height: 35px;
+    background-color: blanchedalmond;
+    border-top:solid 5px gainsboro;
+    
+}
+
+/* main_menu_text : <a> tag in menu */
+#main_menu_text{ 
+    padding:10px;
+    text-decoration: none;
+    color:black;
+    font-size:20px;
+}
+
+#sub_menu{
+    padding-left:10px;
+    position: absolute;
+    opacity: 0;
+
+    visibility: hidden;   
+}
+
+#main_menu > li:hover #sub_menu{
+    opacity: 1;
+    visibility: visible;
+}
+
+
+
+article {
+    position: absolute;
+    float: left;
+    padding: 10px;
+    width: 80%;
+    height: 100%; /*only for demonstration, should be removed*/
+    left:20%;
+    /* height: 100%; */
+    background-color: #f1f1f1;
+  }
+
+.iframe_box{
+    border: 0px;
+    height:100%;
+}
+
+section:after{
+    content:"";
+    display:table;
+    clear:both;
+}
+
+footer{
+    background-color: #777;
+    padding:10px;
+    text-align: center;
+    color:white;
+}
+
+#sd_table{
+    border-collapse: collapse;
+    border: solid 2px lightgray;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.sd_th{
+    
+    border: solid 2px lightgray;
+}
+
+.sd_tr{
+    margin-left: 10px;
+}
+
+.sd_td{
+    border: solid 2px lightgray;
+}
+
+.sd_bookmark{
+    margin-right: 20px;
+    margin-left: 20px;
+}
+
+.sd_contents{
+    word-wrap:break-word;
+}
+
+/* Responsive layout - makes the two columns/boxes stack on top of each other instead of next to each other, on small screens */
+@media (max-width: 600px) {
+    nav, article {
+      width: 100%;
+      height: auto;
+    }
+  }
