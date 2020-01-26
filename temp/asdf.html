@@ -3,7 +3,25 @@
 <head>
     <link href="https://fonts.googleapis.com/css?family=Jua&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <style type="text/css">
+        
+        table td{
+            position: relative;
+        }
+        input, textarea{
+            position: absolute;
+            display: block;
+            top: 0;
+            left: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+            border: none;
+            padding: 10px;
+            box-sizing: border-box;
+        }
 
+    </style>
  
 </head>
 <body>
@@ -11,15 +29,15 @@
         <thead>
             <caption>방명록 남기기</caption>
         </thead>
-        <tobdy>
-            <form id="visit_form">
+        <tobdy >
+            <form id="visit_form"> 
                 
-                <tr height="10px">
-                    <th>
+                <tr height="10px" >
+                    <th width="100px">
                         제목
                     </th>
                     <td>
-                        <input name="title" type="text" width="100%">
+                        <input id="title" name="title" type="text">
                     </td>
                 </tr>
                 <tr>
@@ -27,7 +45,7 @@
                         글쓴이
                     </th>
                     <td>
-                        <input name="writer" type="text">
+                        <input id="writer" name="writer" type="text">
                     </td>
                 </tr>
                 <tr>
@@ -35,7 +53,7 @@
                         이메일
                     </th>
                     <td>
-                        <input name="email" type="text">
+                        <input id="email" name="email" type="email">
                     </td>
                 </tr>
 
@@ -44,12 +62,13 @@
                         내용
                     </th>
                     <td>
-                        <input name="contents" type="text">
+                        <textarea id="contents" class="input"  name="contents" type="text"></textarea>
                     </td>
                 </tr>
 
                 <tr>
                     <td colspan="2" >
+                        
                         <button onclick="open_window();">제출</button>
                     </td>
                 </tr>
@@ -60,17 +79,27 @@
 
     
     <script type="text/javascript">
+
         function open_window(){
-            var form = document.getElementById("visit_form");
+            //alert(document.getElementById("title").value);
+
+            var title = document.getElementById("title").value;
+            var writer = document.getElementById("writer").value;
+            var email = document.getElementById("email").value;
+            var contents = document.getElementById("contents").value;
+            var date = new Date();
+            var list = [["제목", title], ["날짜", date], ["글쓴이", writer], ["이메일", email], ["내용", contents], ];
             // 날짜 넣어야 함
-            var win = window.open("", 'new window');
-            win.document.write("<table><thead><caption>방명록 내용</caption></thead><tbody>");
             
-            for(var p in form){
+            var win = window.open('', 'new window');
+
+            win.document.write("<table border=\"1\"><thead><caption>방명록 내용</caption></thead><tbody>");
+            
+            for(i = 0 ; i < list.length ; i++){
                 win.document.write("<tr><td>");
-                win.document.write(p);
+                win.document.write(list[i][0]);
                 win.document.write("</td><td>");
-                win.document.write(form[p]);
+                win.document.write(list[i][1]);
                 win.document.write("</td></tr>");
             }
 
