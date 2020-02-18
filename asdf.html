@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    </head>
+    <style>
+        .fade-enter-active, .fade-leave-active{transition:opacity 2s}
+        .fade-enter, .fade-leave-to{
+            opacity: 0;
+        }
+        .list{
+            width:480px;
+            padding:0;
+            border:1px solid #000000;
+        }
+        .list2{
+            width:240px;
+            padding:0;
+            border:1px solid #000000;
+        }
+        .item{
+            display:inline-flex;
+            justify-content: center;
+            align-items: center;
+            margin:4px;
+            width:40px;height:40px;
+            color:white;
+            background-color: #555555;
+        }
+        .v-enter-active, .v-leave-active, .v-move{
+            transition:opacity 1s, transform 1s;
+        }
+        .v-leave-active{
+            position:absolute;
+        }
+        .v-enter{
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        .v-leave-to{
+            opacity: 0;
+            transform:translateY(20px);
+        }
+    </style>
+
+
+    <body>
+        <div id="apps">
+            <select v-model="num1">
+                <option v-for="i in 10" :value="i-1">{{i-1}}</option>
+            </select>
+            <select v-model="num2">
+                <option v-for="i in 10" :value="i-1" :disabled="i-1 == num1?true:false">{{i-1}}</option>
+            </select>
+            <select v-model="num3">
+                <option v-for="i in 10" :value="i-1"  :disabled="i-1 == num1 || i-1 == num2?true:false">{{i-1}}</option>
+            </select>
+            <button @click="input" :disabled="fail || correct">Add</button></br>
+
+
+            <transition-group name="fade" tag="ul" v-for="(item, index) in nums" :data-index="index" :key="item" class="list2">
+                <transition-group tag="ul" class="list" :key="item">
+                    <li v-for="(asdf, ind) in item" :data-index="ind" 
+                    :key="asdf" class="item" @click="doRemove(item)">{{asdf}}</li>
+                </transition-group>
+            </transition-group>
+
+            <ul>
+                
+                <li v-if=correct>
+                    You solved!</br>
+                    <img src="https://scontent-ssn1-1.xx.fbcdn.net/v/t1.0-9/14910551_1109298129187926_8116984848967731014_n.jpg?_nc_cat=102&_nc_ohc=Q_3_TdAXxZMAX8nvRK4&_nc_ht=scontent-ssn1-1.xx&oh=0cc11ccf9b2cc7e42c56bf65cc3440be&oe=5EBB4622">
+                </li>
+                <li v-if=fail>
+                    You failed!</br>
+                    <img src="https://mblogthumb-phinf.pstatic.net/MjAxOTA0MDNfMTcw/MDAxNTU0MjY4MzkyMTY3.vU_Wv79V6oUBt18jRl6IiWWDQ7EfTuqVz6nsI-WELJ8g.sBZgCtWPdK7WYOpeL0-suH8Pklj4y7hlRE93YAuRiLAg.JPEG.parkamsterdam/KakaoTalk_20190403_102152231.jpg?type=w800">        
+                </li>
+            </ui>
+        </div>
+        
+        <script src="https://unpkg.com/vue"></script>
+        <script>
+            const app = new Vue({
+                el:"#apps",
+                data:{
+                    try:0,
+                    initNum1 : 0, initNum2 : 0, initNum3 : 0,
+                    num1 : 0, num2 : 0, num3 : 0,
+                    nums:[],
+                    
+                    correct:false,
+                    fail:false,
+                },
+                methods:{
+                    input:function(){
+                        
+                        this.try++;
+                        if(this.try > 10){
+                            this.fail = true;
+                        }
+                        else{
+                            console.log(this.num1);
+                            console.log(this.num2);
+                            console.log(this.num3);
+                            var s = 0, b = 0;
+                            if(this.num1 == this.initNum1) s++;
+                            else if(this.num1 == this.initNum2 || this.num1 == this.initNum3) b++;
+
+                            if(this.num2 == this.initNum2) s++;
+                            else if(this.num2 == this.initNum1 || this.num2 == this.initNum3) b++;
+
+                            if(this.num3 == this.initNum3) s++;
+                            else if(this.num3 == this.initNum2 || this.num3 == this.initNum1) b++;
+
+                            this.nums.push([this.num1, this.num2, this.num3, b, s]);
+                            if(s==3){
+                                this.correct = true;
+                            }
+                        }
+                        console.log(this.nums);
+                    }
+                },
+                mounted:function(){
+                    console.log(" mounted:function() called");
+                    
+                    this.initNum1 = Math.floor(Math.random() * 10);
+                    while(1){
+                        this.initNum2 = Math.floor(Math.random() * 10);
+                        if(this.initNum2 != this.initNum1) break;
+                    }
+                    while(1){
+                        this.initNum3 = Math.floor(Math.random() * 10);
+                        if(this.initNum3 != this.initNum1 && this.initNum3 != this.initNum2) break;
+                    }
+                    console.log(this.initNum1);
+                    console.log(this.initNum2);
+                    console.log(this.initNum3);
+                }
+
+            });
+
+            // var vm = new Vue({
+            //     el:'#databinding',
+            //     data(){
+            //         return {
+            //             current : 1,
+            //             list:[1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+            //             list2:[]
+            //         }
+            //     },
+            //     computed:{
+            //         filteredList(){
+            //             return this.list.filter(el=>el%this.current===0)
+            //         }
+            //     },
+            //     methods:{
+            //         doTry(){
+            //             // const newNumber = Math.max.apply(null, this.list) + 1
+            //             // const index = Math.floor(Math.random() * (this.list.length + 1))
+            //             // this.list.splice(index, 0, newNumber)
+            //         },
+            //         addSelect(item){
+            //             this.list.splice(this.list.indexOf(item), 1)
+            //             // this.list2 += item
+            //             this.list2.push(item)
+            //         },
+            //         delSelect(item){
+            //             this.list2.splice(this.list2.indexOf(item), 1)
+            //             this.list += item
+            //         }
+            //     }
+            // });
+        </script>
+    </body>
+</html>
